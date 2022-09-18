@@ -11,8 +11,17 @@ const logger = bunyan.createLogger({
 });
 const imgFolder = 'img_assets/';
 const imgName = fs.readdirSync(upath.join(__dirname, imgFolder));
-function getRandomElementFromArray(arr: Array<any>) {
-    return arr[crypto.randomInt(arr.length)]
+var suffleImg: string[];
+var currentSuffleProgress = 0;
+function fetchCurrentImageFilename() {
+    if (currentSuffleProgress >= imgName.length) currentSuffleProgress = 0;
+    if (currentSuffleProgress == 0) {
+        suffleImg = imgName
+            .map(val => ({ val, sort: Math.random() }))
+            .sort((a, b) => a.sort - b.sort)
+            .map(({ val }) => val);
+    }
+    return suffleImg[currentSuffleProgress++];
 }
 
 
@@ -21,7 +30,7 @@ logger.info(imgName);
 
 app.get("/random", (req, res) => {
     res.type("text/plain; charset=utf-8");
-    res.end(getRandomElementFromArray(imgName));
+    res.end(fetchCurrentImageFilename());
 })
 
 app.get("/image", (req, res) => {
