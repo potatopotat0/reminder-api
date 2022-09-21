@@ -23,14 +23,22 @@ function fetchCurrentImageFilename() {
     }
     return suffleImg[currentSuffleProgress++];
 }
+function getRandomElementFromArray(arr: any[]): any {
+    return arr[crypto.randomInt(arr.length)];
+}
 
 
 logger.info("Loaded image list:");
 logger.info(imgName);
 
-app.get("/random", (req, res) => {
+app.get("/hourly", (req, res) => {
     res.type("text/plain; charset=utf-8");
     res.end(fetchCurrentImageFilename());
+})
+
+app.get("/random", (req, res) => {
+    res.type("text/plain; charset=utf-8");
+    res.end(getRandomElementFromArray(imgName));
 })
 
 app.get("/image", (req, res) => {
