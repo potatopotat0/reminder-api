@@ -9,7 +9,7 @@ const logger = bunyan.createLogger({
     level: bunyan.INFO,
     stream: process.stdout
 });
-const imgFolder = 'img_assets/';
+const imgFolder = '../img_assets/';
 const imgName = fs.readdirSync(upath.join(__dirname, imgFolder));
 var suffleImg: string[];
 var currentSuffleProgress = 0;
